@@ -1,0 +1,164 @@
+<router-outlet></router-outlet>
+
+
+
+<div class="container mt-4">
+  <div class="card" *ngIf="!isUpdateFormActive">
+    <h1>Chansons Registation</h1>
+    <form [formGroup]="chanson" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="titreChanson">Titre de la chanson:</label>
+        <input type="text"  id="titreChanson" formControlName="titreChanson" class="form-control"
+          placeholder="Enter Song Title">
+      </div>
+
+      <div class="form-group">
+        <label for="nomArtiste">Nom de l'artiste principal:</label>
+        <input type="text" id="nomArtiste" formControlName="nomArtiste" class="form-control"
+          placeholder="Enter Main Artist Name">
+      </div>
+
+      <div class="form-group">
+        <label for="nomsaArtistescCollaborateurs">Artistes collaborateurs:</label>
+        <textarea id="nomsaArtistescCollaborateurs" formControlName="nomsaArtistescCollaborateurs" class="form-control"
+          placeholder="Enter Collaborating Artists (one per line)" rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="pochetteAlbum">Pochette de l'album:</label>
+        <input type="file" id="pochetteAlbum" (change)="onImageSelected($event)" formControlName="pochetteAlbum"
+          accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label for="chansonUrl">Fichier audio:</label>
+        <input type="file" id="chansonUrl" (change)="onFileSelected($event)" formControlName="chansonUrl"
+          accept="image/*" required>
+      </div>
+
+      <div class="form-group">
+        <label for="lyrics">Paroles de la chanson:</label>
+        <textarea id="lyrics" formControlName="lyrics" class="form-control" placeholder="Enter Song Lyrics"
+          rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="prix">Prix:</label>
+        <input type="number" id="prix" formControlName="prix" class="form-control" placeholder="Enter Price">
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-4">Ajouter la chanson</button>
+    </form>
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+  <div class="card" *ngIf="isUpdateFormActive">
+    <h1>Chansons Modification</h1>
+    <form [formGroup]="chanson" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="titreChanson">Titre de la chanson:</label>
+        <input type="text"  id="titreChanson" formControlName="titreChanson" class="form-control"
+          placeholder="Enter Song Title">
+      </div>
+
+      <div class="form-group">
+        <label for="nomArtiste">Nom de l'artiste principal:</label>
+        <input type="text" id="nomArtiste" formControlName="nomArtiste" class="form-control"
+          placeholder="Enter Main Artist Name">
+      </div>
+
+      <div class="form-group">
+        <label for="nomsaArtistescCollaborateurs">Artistes collaborateurs:</label>
+        <textarea id="nomsaArtistescCollaborateurs" formControlName="nomsaArtistescCollaborateurs" class="form-control"
+          placeholder="Enter Collaborating Artists (one per line)" rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="pochetteAlbum">Pochette de l'album:</label>
+        <input type="file" id="pochetteAlbum" (change)="onImageSelected($event)" formControlName="pochetteAlbum"
+          accept="image/*">
+      </div>
+
+      <div class="form-group">
+        <label for="chansonUrl">Fichier audio:</label>
+        <input type="file" id="chansonUrl" (change)="onFileSelected($event)" formControlName="chansonUrl"
+          accept="image/*" required>
+      </div>
+
+      <div class="form-group">
+        <label for="lyrics">Paroles de la chanson:</label>
+        <textarea id="lyrics" formControlName="lyrics" class="form-control" placeholder="Enter Song Lyrics"
+          rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="prix">Prix:</label>
+        <input type="number" id="prix" formControlName="prix" class="form-control" placeholder="Enter Price">
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-4">Modifier la chanson</button>
+    </form>
+      
+
+
+  </div>
+
+
+
+  <div class="container mt-4">
+    <h1>Chansons Table</h1>
+    <table class="table table-striped">
+      <thead class="thead-light">
+        <h1 *ngIf="!isResultLoaded">Loading.................</h1>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">titreChanson</th>
+          <th scope="col">nomArtiste</th>
+          <th scope="col">nomsaArtistescCollaborateurs</th>
+          <th scope="col">pochetteAlbum</th>
+          <th scope="col">chansonUrl</th>
+          <th scope="col">lyrics</th>
+          <th scope="col">prix</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let ChansonItem of chanssonsArray">
+          <td>{{ChansonItem.id }}</td>
+          <td>{{ChansonItem.titreChanson }}</td>
+          <td>{{ChansonItem.nomArtiste }}</td>
+          <td>
+            <ul>
+              <li *ngFor="let collaborateur of ChansonItem.nomsaArtistescCollaborateurs">
+                {{ collaborateur }}
+              </li>
+            </ul>
+          </td>
+          <td>{{ChansonItem.pochetteAlbum }}</td>
+          <td>{{ChansonItem.chansonUrl }}</td>
+          <td>{{ChansonItem.lyrics }}</td>
+          <td>{{ChansonItem.prix }}</td>
+         
+          <td>
+            <button type=" button" class="btn btn-success" (click)="setUpdate(ChansonItem)">Edit</button>
+            <button type="button" class="btn btn-danger" (click)="setDelete(ChansonItem)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="container mt-4">
+    <button class="btn btn-primary" (click)="changePage(-1)" [disabled]="currentPage === 1">Previous</button>
+    <span class="mx-2">{{ currentPage }}</span>
+    <button class="btn btn-primary" (click)="changePage(1)">Next</button>
+  </div>
