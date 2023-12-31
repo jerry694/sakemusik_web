@@ -1,0 +1,52 @@
+<div class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+            <h1>Enregistrer Chanson</h1>
+            <form [formGroup]="chanson" (ngSubmit)="save()">
+              <div class="form-group mb-3">
+                <label for="titreChanson">Titre de la chanson:</label>
+                <input type="text"  id="titreChanson" formControlName="titreChanson" class="form-control"
+                  placeholder="Enter Song Title">
+              </div>
+        
+              <div class="form-group mb-3">
+                <label for="nomArtiste">Nom de l'artiste principal:</label>
+                <input type="text" id="nomArtiste" formControlName="nomArtiste" class="form-control"
+                  placeholder="Enter Main Artist Name">
+              </div>
+        
+              <div class="form-group mb-3">
+                <label for="nomsaArtistescCollaborateurs">Artistes collaborateurs:</label>
+                <textarea id="nomsaArtistescCollaborateurs" formControlName="nomsaArtistescCollaborateurs" class="form-control"
+                  placeholder="Enter Collaborating Artists (one per line)" rows="4"></textarea>
+              </div>
+        
+              <div class="form-group mb-3">
+                <label for="pochetteAlbum">Pochette de l'album:</label>
+                <input type="file" id="pochetteAlbum" (change)="onImageSelected($event)" formControlName="pochetteAlbum"
+                  accept="image/*">
+              </div>
+        
+              <div class="form-group mb-3">
+                <label for="chansonUrl">Fichier audio:</label>
+                <input type="file" id="chansonUrl" (change)="onFileSelected($event)" formControlName="chansonUrl"
+                  accept="audio/*" required>
+              </div>
+        
+              <div class="form-group mb-3">
+                <label for="lyrics">Paroles de la chanson:</label>
+                <textarea id="lyrics" formControlName="lyrics" class="form-control" placeholder="Enter Song Lyrics"
+                  rows="4"></textarea>
+              </div>
+        
+              <div class="form-group mb-3">
+                <label for="prix">Prix:</label>
+                <input type="number" id="prix" formControlName="prix" class="form-control" placeholder="Enter Price">
+              </div>
+        
+              <button type="submit" class="btn btn-primary mt-1">Ajouter la chanson</button>
+            </form>
+        
+        
+        
+          </div>
+    </div>

@@ -1,17 +1,13 @@
-import { formatDate } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChansonsService } from './chansons.service';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ChansonsService } from 'src/app/chansons.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-creer',
+  templateUrl: './creer.component.html',
+  styleUrls: ['./creer.component.css']
 })
-export class AppComponent implements OnInit {
-
+export class CreerComponent implements OnInit {
   chanssonsArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
@@ -30,11 +26,7 @@ export class AppComponent implements OnInit {
   prix: any;
 
 
-
-
-  currentPage: number = 1;
-
-  constructor(private fb: FormBuilder, private chansonService: ChansonsService) {
+  constructor(private fb: FormBuilder, private chansonService: ChansonsService) {     
     this.chanson = this.fb.group({
       titreChanson: ['', Validators.required],
       nomArtiste: ['', Validators.required],
@@ -44,15 +36,18 @@ export class AppComponent implements OnInit {
       lyrics: [''],
       prix: ['']
     });
-
-
-  }
-
+ }
   ngOnInit(): void {
-    this.getAllChansons();
-
+    throw new Error('Method not implemented.');
   }
-
+  save() {
+    if (this.currentChansonID == '') {
+      this.onSubmit();
+    }
+    else {
+      this.UpdateRecords();
+    }
+  }
   onSubmit() {
     const formData = new FormData();
 
@@ -106,83 +101,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-
-
-  onImageSelected(event: any) {
-    const pochetteAlbumControl = this.chanson.get('pochetteAlbum');
-    if (pochetteAlbumControl) {
-      pochetteAlbumControl.setValue(event.target.files[0]);
-    } else {
-      console.error('La propriété pochetteAlbum est nulle.');
-    }
-  }
-
-  onFileSelected(event: any) {
-    const chansonUrlControl = this.chanson.get('chansonUrl');
-    if (chansonUrlControl) {
-      chansonUrlControl.setValue(event.target.files[0]);
-    } else {
-      console.error('La propriété chansonUrl est nulle.');
-    }
-  }
-
-
-
-
-
-  getAllChansons() {
-    this.chansonService.getListOfSongs(this.currentPage)
-      .subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        console.log(resultData.data);
-        this.chanssonsArray = resultData.data;
-        this.chanssonsArray.forEach(chanson => {
-          chanson.nomsaArtistescCollaborateurs = Array.isArray(chanson.nomsaArtistescCollaborateurs)
-            ? chanson.nomsaArtistescCollaborateurs
-            : [chanson.nomsaArtistescCollaborateurs];
-        });
-      });
-  }
-
-  changePage(change: number): void {
-    this.currentPage += change;
-    this.getAllChansons();
-  }
-
-
-  setUpdate(data: any) {
-    this.currentChansonID = data.id;
-    this.chanson.patchValue({
-      titreChanson: data.titreChanson,
-      nomArtiste: data.nomArtiste,
-      nomsaArtistescCollaborateurs: data.nomsaArtistescCollaborateurs.join('\n'),
-      // pochetteAlbum: data.pochetteAlbum,
-      // chansonUrl: data.chansonUrl,
-      lyrics: data.lyrics,
-      prix: data.prix
-    });
-    // Activer le formulaire de mise à jour
-    this.isUpdateFormActive = true;
-    console.log(this.titreChanson)
-    console.log(this.nomArtiste)
-    console.log(this.nomsaArtistescCollaborateurs)
-    console.log(this.pochetteAlbum)
-    console.log(this.chansonUrl)
-    console.log(this.lyrics)
-    console.log(this.prix)
-    console.log(this.currentChansonID)
-
-  }
-
-  setDelete(data: any) {
-    this.chansonService.deleteSong(data.id).subscribe((resultData: any) => {
-      console.log(resultData);
-      alert("Student Deletedddd")
-      this.getAllChansons();
-    });
-  }
-
-  UpdateRecords() {
+    UpdateRecords() {
     // let bodyData = 
     // {
     //   "titreChanson" : this.titreChanson,
@@ -238,27 +157,27 @@ export class AppComponent implements OnInit {
       console.log(resultData);
       alert("Student Registered Updateddd")
       this.isUpdateFormActive = false;
-      this.getAllChansons();
       this.chanson.reset();
 
 
     });
 
   }
-
-  save() {
-    if (this.currentChansonID == '') {
-      this.onSubmit();
-    }
-    else {
-      this.UpdateRecords();
+  onImageSelected(event: any) {
+    const pochetteAlbumControl = this.chanson.get('pochetteAlbum');
+    if (pochetteAlbumControl) {
+      pochetteAlbumControl.setValue(event.target.files[0]);
+    } else {
+      console.error('La propriété pochetteAlbum est nulle.');
     }
   }
 
+  onFileSelected(event: any) {
+    const chansonUrlControl = this.chanson.get('chansonUrl');
+    if (chansonUrlControl) {
+      chansonUrlControl.setValue(event.target.files[0]);
+    } else {
+      console.error('La propriété chansonUrl est nulle.');
+    }
+  }
 }
-
-
-
-
-
-

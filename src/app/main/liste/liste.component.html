@@ -1,0 +1,40 @@
+<div class="container mt-5">
+    <h2>Liste des Étudiants</h2>
+    <table class="table table-bordered table-hover table-responsive">
+        <thead class="thead-dark">
+            <h1 *ngIf="!isResultLoaded">Loading.................</h1>
+            <tr>
+              <th scope="col">Actions</th>
+              <th scope="col">titreChanson</th>
+              <th scope="col">nomArtiste</th>
+              <th scope="col">nomsaArtistescCollaborateurs</th>
+              <th scope="col">pochetteAlbum</th>
+              <th scope="col">chansonUrl</th>
+              <th scope="col">prix</th>
+              <th scope="col">lyrics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ChansonItem of chanssonsArray">
+              <td class="text-truncate w-25">
+                <button type=" button" class="btn btn-light " [routerLink]="['/modifier',ChansonItem.id]" >Edit</button>
+                <button type="button" class="btn btn-danger mx-2" (click)="setDelete(ChansonItem)">Delete</button>
+              </td>
+              <td class="text-truncate w-25">{{ChansonItem.titreChanson }}</td>
+              <td class="text-truncate w-25">{{ChansonItem.nomArtiste }}</td>
+              <td class="text-truncate w-25">
+                <ul>
+                  <li *ngFor="let collaborateur of ChansonItem.nomsaArtistescCollaborateurs">
+                    {{ collaborateur }}
+                  </li>
+                </ul>
+              </td>
+              <td class="text-truncate w-25">{{ChansonItem.pochetteAlbum }}</td>
+              <td class="text-truncate w-25">{{ChansonItem.chansonUrl }}</td>
+              <td class="text-truncate w-25">{{ChansonItem.prix }}</td>
+              <td class="text-truncate w-25">{{ChansonItem.lyrics }}</td>
+             
+            </tr>
+          </tbody>
+    </table>
+  </div>

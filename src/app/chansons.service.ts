@@ -26,6 +26,9 @@ export class ChansonsService {
     );
   }
 
+  oneChanson(id: number): Observable<any> {
+    return this.http.get(this.apiurl + "/one/" + id)
+  }
 
   
   updateSong(id: any, updatedSongData: FormData): Observable<any> {
